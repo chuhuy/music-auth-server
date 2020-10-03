@@ -7,7 +7,10 @@ const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = 4000;
+const port = process.env.PORT || 3000;
+
+// Import routes
+const adminRoute = require('./src/routes/admin.route');
 
 // Parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -15,11 +18,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Parse application/json
 app.use(bodyParser.json());
 
-app.use((req, res) => {
-    res.setHeader('Content-Type', 'text/plain')
-    res.write('you posted:\n')
-    res.end(JSON.stringify(req.body, null, 2))
-});
+// app.use((req, res) => {
+//     res.setHeader('Content-Type', 'text/plain')
+//     res.end(JSON.stringify(req.body, null, 2))
+// });
 
 // Allow Cross-Origin requests
 app.use(cors());
@@ -39,16 +41,11 @@ app.use(hpp());
 
 // Test
 app.get('/', (req, res) => {
-    const connection = require('./src/database/connect');
-    connection.connect();
-    connection.query('SELECT * FROM admin', (error, results, fields) => {
-        if(error) console.log(error);
-        else {
-            console.log(results[0]);
-        }
-    })
     res.send("Music Life Auth Server");
 });
+
+// Use routes
+app.use(`/api/v${process.env.API_VERSION}/admin`, adminRoute);
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);

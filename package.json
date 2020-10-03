@@ -21,6 +21,7 @@
     "http": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
+    "nodemailer": "^6.4.13",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
