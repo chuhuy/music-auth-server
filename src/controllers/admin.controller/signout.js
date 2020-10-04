@@ -11,7 +11,7 @@ const signout = (req, res) => {
         }
     });
     const mailOptions = {
-        from: 'noreply.musiclife@gmail.com',
+        from: 'Music Life',
         to: 'chuhuy2911@gmail.com',
         subject: 'Test mail from Music Life',
         text: 'Test content'
