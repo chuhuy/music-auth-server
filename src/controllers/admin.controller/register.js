@@ -19,14 +19,7 @@ const register = (req, res) => {
             });
         } else {
             const saltRounds = 12;
-            bcrypt.hash(req.body.password, saltRounds, (error, hash) => {
-                if(error) {
-                    res.status(200).json({
-                        status: false,
-                        code: 5001,     // Cannot create
-                        errorMessage: 'Fail to register'
-                    });
-                };
+            bcrypt.hash(req.body.password, saltRounds).then((hash) => {
                 const registerSql = `INSERT INTO admin (username, secret) VALUES ('${req.body.username}', '${hash}')`;
                 connection.query(registerSql, (error, results, fields) => {
                     if(error) {

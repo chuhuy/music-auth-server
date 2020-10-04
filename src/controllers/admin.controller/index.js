@@ -1,9 +1,11 @@
-const connection = require('./../../database/connect');
-const bcrypt = require('bcrypt');
 const register = require('./register');
+const signin = require('./signin');
+const token = require('./token');
 
 const controller = {
-    register: register
+    register: register,
+    signin: signin,
+    token: token
 };
 
 module.exports = controller;

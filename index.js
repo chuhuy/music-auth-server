@@ -18,11 +18,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Parse application/json
 app.use(bodyParser.json());
 
-// app.use((req, res) => {
-//     res.setHeader('Content-Type', 'text/plain')
-//     res.end(JSON.stringify(req.body, null, 2))
-// });
-
 // Allow Cross-Origin requests
 app.use(cors());
 
