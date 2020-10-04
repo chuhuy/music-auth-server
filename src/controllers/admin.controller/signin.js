@@ -3,10 +3,18 @@ const connection = require('./../../database/connect');
 const jwt = require('jsonwebtoken');
 
 const signin = (req, res) => {
+    if(!req.body.username || !req.body.password) {
+        return res.json({
+            status: false,
+            code: 4000,
+            errorMessage: "Invalid param"
+        })
+    }
+    
     const signinSql = `SELECT admin.secret FROM admin WHERE admin.username = '${req.body.username}'`;
     connection.query(signinSql, (error, results, fields) => {
         if(error) {
-            res.json({
+            return res.json({
                 status: false,
                 code: 4000,
                 errorMessage: 'Fail to sign in'
@@ -23,14 +31,14 @@ const signin = (req, res) => {
                     const insertRefreshTokenSql = `UPDATE admin SET admin.refresh_token = '${refresh_token}' WHERE admin.username = '${req.body.username}'`;
                     connection.query(insertRefreshTokenSql, (err, result, field) => {
                         if(err || !result["affectedRows"]) {
-                            res.json({
+                            return res.json({
                                 status: false,
                                 code: 4000,
                                 errorMessage: 'Fail to sign in'
                             })
                         }
                         else {
-                            res.json({
+                            return res.json({
                                 status: true,
                                 code: 2000,
                                 message: 'Sign in successfully',
@@ -42,21 +50,21 @@ const signin = (req, res) => {
                         }
                     })  
                 } else {
-                    res.json({
+                    return res.json({
                         status: false,
                         code: 4000,
                         errorMessage: 'Incorrect password'
                     })
                 }
             }).catch(() => {
-                res.json({
+                return res.json({
                     status: false,
                     code: 4000,
                     errorMessage: 'Fail to sign in'
                 })
             });
         } else {
-            res.json({
+            return res.json({
                 status: false,
                 code: 4000,
                 errorMessage: 'This account does not exist'
