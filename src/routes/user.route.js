@@ -6,5 +6,6 @@ router.post('/register', controller.register);
 router.get('/validate', controller.validate);
 router.post('/token', controller.token);
 router.post('/signout', controller.signout);
+router.post('/signin', controller.signin);
 
 module.exports = router;
