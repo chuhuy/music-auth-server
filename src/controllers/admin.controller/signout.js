@@ -1,29 +1,7 @@
-const { sign } = require('jsonwebtoken');
 const connection = require('./../../database/connect');
 const nodemailer = require('nodemailer');
 
 const signout = (req, res) => {
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.MAIL_ACCOUNT,
-            pass: process.env.MAIL_PASS
-        }
-    });
-    const mailOptions = {
-        from: 'Music Life',
-        to: 'chuhuy2911@gmail.com',
-        subject: 'Test mail from Music Life',
-        text: 'Test content'
-    };
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    })
-
     if(!req.body.username || !req.body.refresh_token) {
         return res.json({
             status: false,

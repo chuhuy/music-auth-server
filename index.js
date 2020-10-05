@@ -11,6 +11,7 @@ const port = process.env.PORT || 3000;
 
 // Import routes
 const adminRoute = require('./src/routes/admin.route');
+const userRoute = require('./src/routes/user.route');
 
 // Parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -41,6 +42,7 @@ app.get('/', (req, res) => {
 
 // Use routes
 app.use(`/api/v${process.env.API_VERSION}/admin`, adminRoute);
+app.use(`/api/v${process.env.API_VERSION}/user`, userRoute);
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
