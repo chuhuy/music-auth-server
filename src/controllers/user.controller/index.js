@@ -5,6 +5,7 @@ const signout = require('./signout');
 const signin = require('./signin');
 const forgotPassword = require('./forgot-password');
 const resetPassword = require('./reset-password');
+const changePassword = require('./change-password');
 
 const controller = {
     register: register,
@@ -13,7 +14,8 @@ const controller = {
     signout: signout,
     signin: signin,
     forgotPassword: forgotPassword,
-    resetPassword: resetPassword
+    resetPassword: resetPassword,
+    changePassword: changePassword
 };
 
 module.exports = controller;
