@@ -3,13 +3,17 @@ const validate = require('./validate');
 const token = require('./token');
 const signout = require('./signout');
 const signin = require('./signin');
+const forgotPassword = require('./forgot-password');
+const resetPassword = require('./reset-password');
 
 const controller = {
     register: register,
     validate: validate,
     token: token,
     signout: signout,
-    signin: signin
+    signin: signin,
+    forgotPassword: forgotPassword,
+    resetPassword: resetPassword
 };
 
 module.exports = controller;

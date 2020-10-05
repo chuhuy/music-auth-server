@@ -7,5 +7,7 @@ router.get('/validate', controller.validate);
 router.post('/token', controller.token);
 router.post('/signout', controller.signout);
 router.post('/signin', controller.signin);
+router.post('/forgot', controller.forgotPassword);
+router.get('/reset', controller.resetPassword);
 
 module.exports = router;

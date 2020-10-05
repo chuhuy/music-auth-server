@@ -12,10 +12,10 @@ const registerMail = (email) => {
         }
     });
     const mailOptions = {
-        from: "Music Life",
+        from: "Music Life <noreply.musiclife@gmail.com>",
         to: email,
         subject: 'Validate your email',
-        text: `Please validate your email with the following link: localhost:3000/api/v1/user/validate?email=${email}&token=${token}`
+        text: `Please validate your email with the following link: ${process.env.SERVER_HOST}/api/v1/user/validate?email=${email}&token=${token}`
     };
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
