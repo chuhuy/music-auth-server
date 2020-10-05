@@ -9,7 +9,7 @@ const signout = (req, res) => {
         })
     }
 
-    const signoutSql = `UPDATE admin SET admin.refresh_token = NULL WHERE admin.username = '${req.body.username}' AND admin.refresh_token = '${req.body.refresh_token}'`;
+    const signoutSql = `UPDATE user SET user.refresh_token = NULL WHERE user.username = '${req.body.username}' AND user.refresh_token = '${req.body.refresh_token}'`;
     connection.query(signoutSql, (error, results, fields) => {
         if(error || !results["affectedRows"]) {
             return res.json({

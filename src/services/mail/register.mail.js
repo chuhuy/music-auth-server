@@ -1,8 +1,8 @@
 const nodemailer = require('nodemailer');
-const emailCrypt = require('./../../helper/crypt.email');
+const jwt = require('jsonwebtoken');
 
 const registerMail = (email) => {
-    const encryptedEmail = emailCrypt.encryptEmail(email);
+    const token = jwt.sign({ mail: email }, process.env.MAIL_TOKEN_SECRET, { expiresIn: '1h' });
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -15,7 +15,7 @@ const registerMail = (email) => {
         from: "Music Life",
         to: email,
         subject: 'Validate your email',
-        text: `Please validate your email with the following link: localhost:3000/api/v1/user/validate?email=${encryptedEmail}`
+        text: `Please validate your email with the following link: localhost:3000/api/v1/user/validate?email=${email}&token=${token}`
     };
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
