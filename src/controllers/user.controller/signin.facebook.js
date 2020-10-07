@@ -107,6 +107,13 @@ const signInWithFacebook = (req, res) => {
             }
         })
     })
+    .catch(error => {
+        return res.json({
+            status: false,
+            code: 5000,
+            errorMessage: 'Internal Server Error'
+        })
+    })
 }
 
 module.exports = signInWithFacebook;
