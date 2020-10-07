@@ -10,5 +10,6 @@ router.post('/signin', controller.signin);
 router.post('/forgot', controller.forgotPassword);
 router.get('/reset', controller.resetPassword);
 router.post('/change-password', controller.changePassword);
+router.post('/signin-fb', controller.signInWithFacebook);
 
 module.exports = router;
