@@ -65,7 +65,7 @@ const signInWithFacebook = (req, res) => {
                 })  
             } else {
                 // Register
-                const registerSql = `INSERT INTO user (username, display_name) VALUES ('${userId}', '${displayName}')`;
+                const registerSql = `INSERT INTO user (username, display_name, validation) VALUES ('${userId}', '${displayName}', 1)`;
                 connection.query(registerSql, (error, results, fields) => {
                     if(error) {
                         return res.status(200).json({

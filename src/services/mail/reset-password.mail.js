@@ -19,7 +19,7 @@ const resetPasswordMail = (email, password) => {
             from: "Music Life <noreply.musiclife@gmail.com>",
             to: email,
             subject: 'Reset password',
-            text: `Your new password is: ${password}. Please click the following link to reset your password: ${process.env.SERVER_HOST}/api/v1/user/reset?s=${hash}&e=${email}&t=${token}`
+            text: `Your new password is: ${password}. Please click the following link to reset your password: http://${process.env.SERVER_HOST}/api/v1/user/reset?s=${hash}&e=${email}&t=${token}`
         };
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
