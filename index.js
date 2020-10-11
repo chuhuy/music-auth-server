@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Allow Cross-Origin requests
-app.use(cors());
+// app.use(cors());
 
 // Set security HTTP requests
 app.use(helmet());
