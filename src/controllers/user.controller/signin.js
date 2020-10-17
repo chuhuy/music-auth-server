@@ -31,8 +31,10 @@ const signin = (req, res) => {
         })
     }
     
-    const signinSql = isUsername ? `SELECT user.secret FROM user WHERE user.username = '${req.body.username}'`
-                                 : `SELECT user.secret FROM user WHERE user.email = '${req.body.email}'`;
+    const queryCondition = isUsername ? `user.username = '${req.body.username}'` 
+                                      : `user.email = '${req.body.email}'`;
+    const signinSql = `SELECT user.username, user.secret FROM user WHERE ${queryCondition}`;
+
     connection.query(signinSql, (error, results, fields) => {
         if(error) {
             return res.json({
@@ -44,13 +46,13 @@ const signin = (req, res) => {
         else if(results.length) {
             bcrypt.compare(req.body.password, results[0]["secret"]).then((result) => {
                 if(result) {
-                    const user = { name: req.body.username };
+                    const user = { name: results[0]["username"] };
 
                     const access_token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '12h' });
                     const refresh_token = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '2w'});
 
-                    const insertRefreshTokenSql = isUsername ? `UPDATE user SET user.refresh_token = '${refresh_token}' WHERE user.username = '${req.body.username}'`
-                                                             : `UPDATE user SET user.refresh_token = '${refresh_token}' WHERE user.email = '${req.body.email}'`;
+                    const insertRefreshTokenSql = `UPDATE user SET user.refresh_token = '${refresh_token}' WHERE user.username = '${user.name}'`;
+
                     connection.query(insertRefreshTokenSql, (err, result, field) => {
                         if(err || !result["affectedRows"]) {
                             return res.json({
