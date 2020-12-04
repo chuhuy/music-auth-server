@@ -7,6 +7,7 @@ const forgotPassword = require('./forgot-password');
 const resetPassword = require('./reset-password');
 const changePassword = require('./change-password');
 const signInWithFacebook = require('./signin.facebook');
+const getUserInfo = require('./me');
 
 const controller = {
     register: register,
@@ -17,7 +18,8 @@ const controller = {
     forgotPassword: forgotPassword,
     resetPassword: resetPassword,
     changePassword: changePassword,
-    signInWithFacebook: signInWithFacebook
+    signInWithFacebook: signInWithFacebook,
+    getUserInfo: getUserInfo,
 };
 
 module.exports = controller;
