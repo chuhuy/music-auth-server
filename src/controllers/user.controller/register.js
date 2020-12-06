@@ -29,7 +29,7 @@ const register = (req, res) => {
         } else {
             const saltRounds = 12;
             bcrypt.hash(req.body.password, saltRounds).then((hash) => {
-                const registerSql = `INSERT INTO user (username, secret, email, display_name) VALUES ('${req.body.username}', '${hash}', '${req.body.email}', '${req.body.display_name}')`;
+                const registerSql = `INSERT INTO user (username, secret, email, display_name, default_avatar) VALUES ('${req.body.username}', '${hash}', '${req.body.email}', '${req.body.display_name}', FLOOR(RAND()*9 + 1))`;
                 connection.query(registerSql, (error, results, fields) => {
                     if(error) {
                         return res.status(200).json({
