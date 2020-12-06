@@ -2,15 +2,10 @@ const connection = require('./../../database/connect');
 const jwt = require('jsonwebtoken');
 
 const token = (req, res) => {
-    if(!req.body.username || !req.body.refresh_token) {
-        return res.json({
-            status: false,
-            code: 4000,
-            errorMessage: "Invalid param"
-        })
-    }
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1];
 
-    const existRefreshTokenSql = `SELECT EXISTS(SELECT * FROM user WHERE user.refresh_token = '${req.body.refresh_token}') AS exist`;
+    const existRefreshTokenSql = `SELECT EXISTS(SELECT * FROM user WHERE user.refresh_token = '${token}') AS exist`;
     connection.query(existRefreshTokenSql, (error, results, field) => {
         if(error || !results[0]["exist"]) {
             return res.json({
@@ -19,7 +14,7 @@ const token = (req, res) => {
                 errorMessage: "Fail to get token"
             })
         } else {
-            jwt.verify(req.body.refresh_token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+            jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
                 if(err) {
                     return res.json({
                         status: false,
@@ -27,7 +22,7 @@ const token = (req, res) => {
                         errorMessage: "Fail to get token"
                     })
                 } else {
-                    const user = { name: req.body.username };
+                    const user = { name: jwt.decode(token).name };
                     const access_token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '12h' });
 
                     return res.json({
