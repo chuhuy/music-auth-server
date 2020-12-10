@@ -25,8 +25,8 @@ const signin = (req, res) => {
                 if(result) {
                     const user = { name: req.body.username };
 
-                    const access_token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '12h' });
-                    const refresh_token = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '2w'});
+                    const access_token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '4w' });
+                    const refresh_token = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1y'});
 
                     const insertRefreshTokenSql = `UPDATE admin SET admin.refresh_token = '${refresh_token}' WHERE admin.username = '${req.body.username}'`;
                     connection.query(insertRefreshTokenSql, (err, result, field) => {

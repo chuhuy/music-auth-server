@@ -28,7 +28,7 @@ const token = (req, res) => {
                     })
                 } else {
                     const user = { name: req.body.username };
-                    const access_token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '12h' });
+                    const access_token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '4w' });
 
                     return res.json({
                         status: true,

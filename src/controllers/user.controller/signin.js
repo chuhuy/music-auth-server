@@ -48,8 +48,8 @@ const signin = (req, res) => {
                 if(result) {
                     const user = { name: results[0]["username"] };
 
-                    const access_token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '12h' });
-                    const refresh_token = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '2w'});
+                    const access_token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '4w' });
+                    const refresh_token = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1y'});
 
                     const insertRefreshTokenSql = `UPDATE user SET user.refresh_token = '${refresh_token}' WHERE user.username = '${user.name}'`;
 
