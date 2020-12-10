@@ -17,6 +17,7 @@ const signInWithFacebook = (req, res) => {
     .then(json => {
         const userId = json.id;
         const displayName = json.name;
+        console.log(json)
         if(!userId || !displayName) {
             return res.json({
                 status: false,
@@ -52,15 +53,48 @@ const signInWithFacebook = (req, res) => {
                         })
                     }
                     else {
-                        return res.json({
-                            status: true,
-                            code: 2000,
-                            message: 'Sign in successfully',
-                            data: {
-                                access_token: access_token,
-                                refresh_token: refresh_token
+                        const queryString = `SELECT u.email, u.display_name, u.username, u.image_url, u.default_avatar FROM user u
+                                                 WHERE u.del_flg = 0
+                                                 AND u.username = ?;`
+                        connection.query(queryString, user.name, (error, results) => {
+                            if(error) {
+                                console.log(error);
+                                return res.status(200).json({
+                                    status: false,
+                                    code: 5000,
+                                    errorMessage: 'Internal Server Error'
+                                });
+                            } else if(results[0]) {
+                                return res.json({
+                                    status: true,
+                                    code: 2000,
+                                    data: {
+                                        access_token: access_token,
+                                        refresh_token: refresh_token,
+                                        email: results[0].email,
+                                        display_name: results[0].display_name,
+                                        username: results[0].username,
+                                        image_url: results[0].image_url,
+                                        default_avatar: results[0].default_avatar,
+                                    }
+                                });
+                            } else {
+                                return res.json({
+                                    status: false,
+                                    code: 4000,
+                                    errorMessage: 'Invalid token'
+                                });
                             }
-                        })
+                        });
+                        // return res.json({
+                        //     status: true,
+                        //     code: 2000,
+                        //     message: 'Sign in successfully',
+                        //     data: {
+                        //         access_token: access_token,
+                        //         refresh_token: refresh_token
+                        //     }
+                        // })
                     }
                 })  
             } else {
